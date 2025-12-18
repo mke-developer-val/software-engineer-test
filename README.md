@@ -133,3 +133,121 @@ Create your solution there and, when it's ready, add @ckortekaas to your fork, a
 ---
 
 Your comments go here.
+
+# Heading Checker
+
+A serverless application that analyzes the semantic structure of headings (h1-h6) in web pages, detects skipped heading levels, and identifies incongruent heading structures based on DOM nesting.
+
+## Features
+
+- Analyzes HTML heading hierarchy (h1-h6)
+- Detects skipped heading levels (e.g., h2 → h5)
+- Identifies headings that conflict with DOM structure
+- RESTful API backend (AWS Lambda + API Gateway)
+- React frontend with JSON viewer
+- Fully serverless AWS architecture
+
+## Architecture
+
+- **Backend**: Node.js 20 Lambda function (TypeScript)
+- **API**: REST API via API Gateway
+- **Frontend**: React application hosted on S3
+- **Infrastructure**: AWS SAM (Serverless Application Model)
+
+## Prerequisites
+
+- [AWS CLI](https://aws.amazon.com/cli/) configured with credentials
+- [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html)
+- [Node.js](https://nodejs.org/) 20 or higher
+- npm
+
+## Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd heading-checker
+   ```
+
+2. **Configure AWS credentials**
+   ```bash
+   aws configure
+   ```
+   Enter your AWS Access Key, Secret Key, and preferred region.
+
+## Deployment
+
+Deploy the entire application (backend + frontend) with one command:
+
+```bash
+./deploy.sh
+```
+
+**What this does:**
+1. Installs backend dependencies
+2. Builds and deploys Lambda function + API Gateway
+3. Builds React frontend with API URL
+4. Uploads frontend to S3
+
+**After deployment**, you'll see:
+```
+Website URL: http://bucket-name.s3-website-region.amazonaws.com
+```
+
+### Custom Stack Name or Region
+
+```bash
+./deploy.sh my-stack-name us-west-2
+```
+
+## Using the Application
+
+### Web Interface
+
+1. Open the Website URL in your browser
+2. Enter a URL to analyze (e.g., `https://example.com`)
+3. Click "Analyze"
+4. View the JSON results
+
+## Local Development
+
+### Run Backend Locally
+
+```bash
+# Install dependencies
+cd backend
+npm install
+
+# Run tests
+npm test
+
+# Start local API
+cd ..
+sam local start-api
+```
+
+The API will be available at `http://localhost:3000/analyze`
+
+### Run Frontend Locally
+
+```bash
+# Install dependencies (use --legacy-peer-deps due to React 18 compatibility)
+cd frontend
+npm install --legacy-peer-deps
+
+# Create .env with API URL
+echo "VITE_API_URL=http://localhost:3000" > .env
+
+# Start dev server
+npm run dev
+```
+
+The frontend will be available at `http://localhost:5173`
+
+## Deleting the Stack
+
+Remove all AWS resources:
+
+```bash
+./cleanup.sh
+```

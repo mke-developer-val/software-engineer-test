@@ -1,0 +1,17 @@
+version = 0.1
+
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "heading-checker-stack"
+resolve_s3 = true
+s3_prefix = "heading-checker"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+confirm_changeset = false
+parameter_overrides = []
+
+[default.build]
+[default.build.parameters]
+cached = true
+parallel = true
